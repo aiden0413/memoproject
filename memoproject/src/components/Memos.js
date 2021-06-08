@@ -5,7 +5,6 @@ import Memo from './Memo';
 function Memos({
     data,
     onRemove,
-    onCancel,
     onSave,
 }) {
     const memolist = data.memolist.map(
@@ -15,7 +14,6 @@ function Memos({
             content={memo.content}
             date={memo.date}
             onRemove={onRemove}
-            onCancel={onCancel}
             onSave={onSave}
         />)
     );

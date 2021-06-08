@@ -9,7 +9,6 @@ function Content({
     onCreate,
     onRemove,
     onEdit,
-    onCancel,
     onSave,
  }) {
     return (
@@ -27,7 +26,6 @@ function Content({
                 <Memos 
                     data={data}
                     onRemove={onRemove}
-                    onCancel={onCancel}
                     onSave={onSave}
                 />
             </div>

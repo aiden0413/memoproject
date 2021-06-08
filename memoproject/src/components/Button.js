@@ -15,7 +15,7 @@ function Button({
             
         }
         else if(text==="취소"){
-            
+            btnFunc();
         }
         else if(text==="삭제"){
             btnFunc(id);

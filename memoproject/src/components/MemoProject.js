@@ -21,10 +21,7 @@ function MemoProject() {
         setData({memolist: data.memolist.filter(memo => memo.id != id)});
     }
     const handleEdit = (id) => {
-
-    }
-    const handleCancel =(id) => {
-
+        //setData({memolist: data.memolist.filter(memo => memo.id == id ? editing)});
     }
     const handleSave = (id) => {
 
@@ -38,7 +35,6 @@ function MemoProject() {
                 onCreate={handleCreate}
                 onRemove={handleRemove}
                 onEdit={handleEdit}
-                onCancel={handleCancel}
                 onSave={handleSave}
             />
             <Footer />
