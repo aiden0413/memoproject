@@ -29,7 +29,7 @@ function Memo({
                         onChange={handleChange}
                 />
                 <textarea 
-                        className="h-300px"
+                        className="resize-none h-300px"
                         value={state.content}
                         name="content"
                         placeholder="내용"
