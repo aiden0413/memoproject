@@ -4,6 +4,7 @@ function Button({
     text = "button",
     btnFunc,
     id="",
+    data,
 }) {
     const handleOnClick = () => {
         if(text==="새 메모"){
@@ -12,16 +13,15 @@ function Button({
             btnFunc(newmemo);
         }
         else if(text==="저장"){
-            
+            let today = new Date();
+            const update = {...data, date: today.toLocaleString()};
+            btnFunc(id, update);
         }
         else if(text==="취소"){
-            btnFunc();
+            btnFunc(id);
         }
         else if(text==="삭제"){
             btnFunc(id);
-        }
-        else if(text==="수정"){
-            
         }
     }
     

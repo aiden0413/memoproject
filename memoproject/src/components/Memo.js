@@ -7,19 +7,19 @@ function Memo({
     title="",
     content="",
     date="",
+    editing="",
     onSave,
+    onEdit,
     onRemove,
+    onCancel,
 }) {
-    const [state, setState] = useState({editing: false, title: "", content: "", date: ""})
+    const [state, setState] = useState({title: title, content: content, date: date})
     
-    const handleEditing = () => {
-        setState({...state, editing: !state.editing});
-    }
     const handleChange = (e) => {
         setState({...state, [e.target.name]: e.target.value})
     }
 
-    if(state.editing){
+    if(editing){
         return (
             <div className="flex flex-col gap-3 bg-green-400 flex-grow p-3">
                 <input
@@ -35,20 +35,18 @@ function Memo({
                         placeholder="내용"
                         onChange={handleChange}
                 />
-                <input
-                        value={state.date}
-                        name="date"
-                        placeholder="날짜"
-                        onChange={handleChange}
-                />
+                <div className="bg-green-200">{date}</div>
                 <div className="flex flex-row justify-around">
                     <Button 
                         text="저장"
                         btnFunc={onSave}
+                        id={id}
+                        data={state}
                     />
                     <Button 
                         text="취소"
-                        btnFunc={handleEditing}
+                        btnFunc={onCancel}
+                        id={id}
                     />
                     <Button 
                         text="삭제" 
@@ -62,7 +60,7 @@ function Memo({
 
     return (
         <div className="flex flex-col gap-3 bg-green-400 p-3"
-            onClick={handleEditing}
+            onClick={() => {onEdit(id)}}
         >
             <div className="bg-green-200">{title}</div>
             <div className="bg-green-200 h-300px">{content}</div>

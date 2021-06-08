@@ -10,6 +10,7 @@ function Content({
     onRemove,
     onEdit,
     onSave,
+    onCancel,
  }) {
     return (
         <div className="flex flex-row flex-grow overflow-auto">
@@ -26,7 +27,9 @@ function Content({
                 <Memos 
                     data={data}
                     onRemove={onRemove}
+                    onEdit={onEdit}
                     onSave={onSave}
+                    onCancel={onCancel}
                 />
             </div>
         </div>
