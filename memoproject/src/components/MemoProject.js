@@ -30,18 +30,29 @@ function MemoProject() {
         setData({memolist: data.memolist.map(memo => memo.id == id ? {id: memo.id, title: update.title, content: update.content, date: update.date, editing: false} : memo)});
     }
 
+    const [sign, setSign] = useState({
+        makenewEditor: false,
+    })
+    
+    const handleSign = (boolean) =>{
+        setSign({makenewEditor: boolean});
+    }
+    // console.log(data);
     return (
         <div className="flex flex-col h-screen">
             <Header />
             <Content 
                 data={data}
                 onCreate={handleCreate}
+                sign={sign}
+                onSign={handleSign}
                 onRemove={handleRemove}
                 onEdit={handleEdit}
                 onSave={handleSave}
                 onCancel={handleCancel}
             />
             <Footer />
+            
         </div>
     )
 }

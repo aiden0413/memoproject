@@ -1,8 +1,9 @@
-import React from "react";
+import React, { memo } from "react";
 
 function Button({
     text = "button",
     btnFunc,
+    onSign,
     id="",
     data,
 }) {
@@ -11,6 +12,7 @@ function Button({
             let today = new Date();
             const newmemo = {title: "new제목", content: "new내용", date: today.toLocaleString()};
             btnFunc(newmemo);
+            onSign(true);
         }
         else if(text==="저장"){
             let today = new Date();
@@ -18,7 +20,8 @@ function Button({
             btnFunc(id, update);
         }
         else if(text==="취소"){
-            btnFunc(id);
+            onSign(false);
+            console.log("이전으로 돌아갑니다."); 
         }
         else if(text==="삭제"){
             btnFunc(id);

@@ -6,23 +6,24 @@ import Memos from "./Memos";
 
 function Content({ 
     data,
+    sign,
     onCreate,
     onRemove,
     onEdit,
     onSave,
     onCancel,
+    onSign,
  }) {
     return (
         <div className="flex flex-row flex-grow overflow-auto">
             <Side 
                 onCreate={onCreate}
+                onSign={onSign}
             />
             <div className="flex flex-col flex-grow">
                 <Toolbar
-                    /*onRemove={onRemove}
-                    onEdit={onEdit}
-                    onCancel={onCancel}
-                    onSave={onSave}*/
+                    sign={sign}
+                    onSign={onSign}
                 />
                 <Memos 
                     data={data}
@@ -30,6 +31,8 @@ function Content({
                     onEdit={onEdit}
                     onSave={onSave}
                     onCancel={onCancel}
+                    sign={sign}
+                    onSign={onSign}
                 />
             </div>
         </div>
