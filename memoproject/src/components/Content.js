@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Toolbar from "./Toolbar";
 import Side from "./Side";
@@ -11,7 +11,12 @@ function Content({
     onRemove,
     onSave,
  }) {
-    const sign = false;
+    const [memodata, setMemodata] = useState({id: "", title: "", content: "", date: ""});
+
+    const setMemoContent = (memoContent) =>{
+        setMemodata(memoContent);
+    }
+
     return (
         <div className="flex flex-row flex-grow overflow-auto">
             <Side/>
@@ -38,9 +43,11 @@ function Content({
                                     sign={true}
                                     onRemove={onRemove}
                                     onSave={onSave}
+                                    memodata={memodata}
                                     {...props}
                                 />
                                 <EditorForm
+                                    setMemoContent={setMemoContent}
                                     data={data}
                                     {...props}
                                 />

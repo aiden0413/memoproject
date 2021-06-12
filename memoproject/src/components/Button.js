@@ -1,10 +1,11 @@
-import React, { memo } from "react";
+import React from "react";
 
 function Button({
     text = "button",
     btnFunc,
-    onCreate,
     id="",
+    onSign,
+    memodata,
     data,
 }) {
     const handleOnClick = () => {
@@ -12,9 +13,7 @@ function Button({
 
         }
         else if(text==="저장"){
-            const today = new Date();
-            const update = {...data, title: "제목", content: "내용", date: today.toLocaleString()};
-            btnFunc(id, update);
+            btnFunc(id, memodata);
         }
         else if(text==="취소"){
 

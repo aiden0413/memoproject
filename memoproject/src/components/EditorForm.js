@@ -1,20 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { EditorState } from 'draft-js';
+import { convertFromRaw } from 'draft-js';
 
 function EditorForm({ 
   match,
   data,
+  setMemoContent,
  }) {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const content = {"entityMap":{},"blocks":[{"key":"637gr","text":"Initialized from content state.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
+  const [contentState, setContentState] = useState(convertFromRaw(content));
+  
+  const today = new Date();
+
   const [state, setState] = useState(data.memolist.find(memo => memo.id === match.params.memoid));
 
-  const onEditorStateChange = (editorState) => {
-    setEditorState(editorState);
-  };
+  useEffect(() => {
+    setMemoContent(state);
+  }, [state]);
+
+  const onContentStateChange = (contentState) => {
+    setContentState(contentState);
+    setState({...state, content: contentState.blocks[0].text, date: today.toLocaleString()});
+  }
+
   const handleChange = (e) => {
-    setState({...state, [e.target.name]: e.target.value})
+    setState({...state, [e.target.name]: e.target.value, date: today.toLocaleString()});
   }
 
   return (
@@ -23,6 +34,7 @@ function EditorForm({
         className="outline-none"
         name="title"
         placeholder="제목"
+        value={state.title}
         onChange={handleChange}
       />
       <div className="border-b border-gray-300 m-3"/>
@@ -37,8 +49,7 @@ function EditorForm({
         localization={{
           locale: 'ko',
         }}
-        editorState={editorState}
-        onEditorStateChange={onEditorStateChange}
+        onContentStateChange={onContentStateChange}
       />
     </div>
   );

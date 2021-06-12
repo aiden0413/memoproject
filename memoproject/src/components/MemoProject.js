@@ -1,6 +1,6 @@
-import React, { memo, useState } from "react";
+import React, { useState } from "react";
 import { v4 as uuid } from 'uuid';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import Header from "./Header";
 import Content from "./Content";
@@ -15,18 +15,12 @@ function MemoProject() {
         ],
     })
 
-    const handleCreate = (memodata) => {
-        setData({memolist: [{id: uuid(), ...memodata}].concat(data.memolist)});
-    }
     const handleRemove = (id) => {
-        setData({memolist: data.memolist.filter(memo => memo.id != id)});
-    }
-    const handleEdit = (id) => {
-        setData({memolist: data.memolist.map(memo => memo.id == id ? {...memo} : {...memo, editing: false})});
+        setData({memolist: data.memolist.filter(memo => memo.id !== id)});
     }
     const handleSave = (id, update) => {
-        if(data.memolist.some(memo => memo.id == id)){
-            setData({memolist: data.memolist.map(memo => memo.id == id ? {id: memo.id, title: update.title, content: update.content, date: update.date} : memo)});
+        if(data.memolist.some(memo => memo.id === id)){
+            setData({memolist: data.memolist.map(memo => memo.id === id ? {id: memo.id, title: update.title, content: update.content, date: update.date} : memo)});
         }
         else{
             setData({memolist: [{id: id, title: update.title, content: update.content, date: update.date}].concat(data.memolist)});
@@ -39,9 +33,7 @@ function MemoProject() {
                 <Header />
                 <Content 
                     data={data}
-                    onCreate={handleCreate}
                     onRemove={handleRemove}
-                    onEdit={handleEdit}
                     onSave={handleSave}
                 />
                 <Footer />     
