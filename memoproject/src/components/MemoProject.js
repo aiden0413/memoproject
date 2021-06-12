@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { v4 as uuid } from 'uuid';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { EditorState } from 'draft-js';
 
 import Header from "./Header";
 import Content from "./Content";
@@ -9,9 +10,9 @@ import Footer from "./Footer";
 function MemoProject() {
     const [data, setData] = useState({
         memolist: [
-            {id: uuid(), title: "제목1", content: "내용1", date: "날짜1"},
-            {id: uuid(), title: "제목2", content: "내용2", date: "날짜2"},
-            {id: uuid(), title: "제목3", content: "내용3", date: "날짜3"}
+            {id: uuid(), title: "제목1", content: EditorState.createEmpty(), date: "날짜1"},
+            {id: uuid(), title: "제목2", content: EditorState.createEmpty(), date: "날짜2"},
+            {id: uuid(), title: "제목3", content: EditorState.createEmpty(), date: "날짜3"}
         ],
     })
 

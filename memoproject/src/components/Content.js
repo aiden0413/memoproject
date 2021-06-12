@@ -11,7 +11,7 @@ function Content({
     onRemove,
     onSave,
  }) {
-    const [memodata, setMemodata] = useState({id: "", title: "", content: "", date: ""});
+    const [memodata, setMemodata] = useState({id: "", title: "", content: {}, date: ""});
 
     const setMemoContent = (memoContent) =>{
         setMemodata(memoContent);
