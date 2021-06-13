@@ -7,6 +7,14 @@ function Memo({
     content="",
     date="",
 }) {
+
+    const [state, setState] = useState({title: title, content: content, date: date})
+    
+    const handleChange = (e) => {
+        setState({...state, [e.target.name]: e.target.value})
+    }
+
+ 
     return (
         <div>
             <Link to={"/memo/" + id}>
