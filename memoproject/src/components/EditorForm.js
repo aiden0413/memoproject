@@ -7,9 +7,17 @@ function EditorForm({
   match,
   data,
  }) {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const [state, setState] = useState(data.memolist.find(memo => memo.id === match.params.memoid));
-  const [editorState_title, setEditorState_title] = useState(EditorState.createEmpty());
+  const today = new Date();
+  /*const [state, setState] = useState(data.memolist.some(memo => memo.id === match.params.memoid)?
+    data.memolist.find(memo => memo.id === match.params.memoid):
+    {id: match.params.memoid, title: EditorState.createEmpty(), content: EditorState.createEmpty(), date: today.toLocaleString()}
+  );*/
+  const [editorState_content, setEditorState_content] = useState(data.memolist.some(memo => memo.id === match.params.memoid)?
+  data.memolist.find(memo => memo.id === match.params.memoid).content : EditorState.createEmpty()
+);
+  const [editorState_title, setEditorState_title] = useState(data.memolist.some(memo => memo.id === match.params.memoid)?
+  data.memolist.find(memo => memo.id === match.params.memoid).title : EditorState.createEmpty()
+);
   
   const saveTitle = (title) =>{
     window.localStorage.setItem('title',JSON.stringify(convertToRaw(title)));
@@ -25,19 +33,15 @@ function EditorForm({
     setEditorState_title(editorState_title);
   }
 
-  const onEditorStateChange = (editorState) => {
-    const contentState = editorState.getCurrentContent();
+  const onEditorStateChange = (editorState_content) => {
+    const contentState = editorState_content.getCurrentContent();
     saveContent(contentState);
-    setEditorState(editorState);
+    setEditorState_content(editorState_content);
   };
-
-  const handleChange = (e) => {
-    setState({...state, [e.target.name]: e.target.value})
-  }
   
   const handleKeyCommand = (command) => {
 
-    const newState = RichUtils.handleKeyCommand(editorState, command);
+    const newState = RichUtils.handleKeyCommand(editorState_content, command);
 
     if(newState){
       this.onChange(newState);
@@ -46,8 +50,6 @@ function EditorForm({
 
     return 'not-handled';
   }
-  
-  
   
 
   return (
@@ -73,7 +75,8 @@ function EditorForm({
         localization={{
           locale: 'ko',
         }}
-        editorState={editorState}
+        handleKeyCommand={handleKeyCommand}
+        editorState={editorState_content}
         onEditorStateChange={onEditorStateChange}
       />
     </div>

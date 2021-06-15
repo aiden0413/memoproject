@@ -1,4 +1,6 @@
 import React from "react";
+import { convertToRaw } from 'draft-js';
+
 import Memo from './Memo';
 
 function Memos({
