@@ -16,7 +16,8 @@ function MemoProject() {
             id: uuid(), 
             title: EditorState.createWithContent(ContentState.createFromText("제목1")), 
             content: EditorState.createWithContent(ContentState.createFromText("내용1")),
-            date: "2021-01-01"
+            date: "2021-01-01",
+            weather: { temp: 0, desc: '', icon: '', loading: true }
         }
     ]});
 
@@ -26,7 +27,8 @@ function MemoProject() {
                 id: memo.id,
                 title: EditorState.createWithContent(convertFromRaw(JSON.parse(memo.title))),
                 content: EditorState.createWithContent(convertFromRaw(JSON.parse(memo.content))),
-                date: memo.date
+                date: memo.date,
+                weather: memo.weather
             }))};
             setData(dbdata);
         });
@@ -37,7 +39,8 @@ function MemoProject() {
             id: memo.id,
             title: JSON.stringify(convertToRaw(memo.title.getCurrentContent())),
             content: JSON.stringify(convertToRaw(memo.content.getCurrentContent())),
-            date: memo.date
+            date: memo.date,
+            weather: memo.weather
         }))};
         firestore.collection("data").doc("memolist").set({memolist : dbdata.memolist});
     }
@@ -60,10 +63,10 @@ function MemoProject() {
     }
     const handleSave = (id, update) => {
         if(data.memolist.some(memo => memo.id === id)){
-            setData({memolist: data.memolist.map(memo => memo.id === id ? {id: memo.id, title: update.title, content: update.content, date: update.date} : memo)});
+            setData({memolist: data.memolist.map(memo => memo.id === id ? {id: memo.id, title: update.title, content: update.content, date: update.date, weather: update.weather} : memo)});
         }
         else{
-            setData({memolist: [{id: id, title: update.title, content: update.content, date: update.date}].concat(data.memolist)});
+            setData({memolist: [{id: id, title: update.title, content: update.content, date: update.date, weather: update.weather}].concat(data.memolist)});
         }
     }
 

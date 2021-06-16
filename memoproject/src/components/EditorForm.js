@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState, RichUtils, convertToRaw } from 'draft-js';
@@ -10,12 +10,17 @@ function EditorForm({
   const today = new Date();
 
   const [editorState_content, setEditorState_content] = useState(data.memolist.some(memo => memo.id === match.params.memoid)?
-  data.memolist.find(memo => memo.id === match.params.memoid).content : EditorState.createEmpty()
-);
+    data.memolist.find(memo => memo.id === match.params.memoid).content : EditorState.createEmpty()
+  );
   const [editorState_title, setEditorState_title] = useState(data.memolist.some(memo => memo.id === match.params.memoid)?
-  data.memolist.find(memo => memo.id === match.params.memoid).title : EditorState.createEmpty()
-);
-  
+    data.memolist.find(memo => memo.id === match.params.memoid).title : EditorState.createEmpty()
+  );
+
+  useEffect(()=>{
+    window.localStorage.setItem('title',JSON.stringify(convertToRaw(editorState_title.getCurrentContent())));
+    window.localStorage.setItem('content', JSON.stringify(convertToRaw(editorState_content.getCurrentContent())));
+  },  [])
+
   const saveTitle = (title) =>{
     window.localStorage.setItem('title',JSON.stringify(convertToRaw(title)));
   }
