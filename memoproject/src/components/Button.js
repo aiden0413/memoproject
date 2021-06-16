@@ -23,7 +23,6 @@ function Button({
             
             const update = {...data, title: title_JSON, content: content_JSON, date: today.toLocaleString()};
             btnFunc(id, update);
-            console.log(content_JSON);
         }
         else if(text==="취소"){
 

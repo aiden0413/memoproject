@@ -27,9 +27,11 @@ function MemoProject() {
         ]
     })
 
-    /*var docRef = db.collection("data").doc("memolist");
-
-    docRef.get().then((doc) => {
+    //var docRef = db.collection("data").doc("memolist");
+    firestore.collection("data").doc("memolist").get().then((doc)=>{
+        console.log(doc.data());
+    });
+    /*docRef.get().then((doc) => {
         if (doc.exists) {
             console.log("Document data:", doc.data());
         } else {
@@ -45,13 +47,13 @@ function MemoProject() {
         setData({memolist: data.memolist.filter(memo => memo.id !== id)});
     }
     const handleSave = (id, update) => {
-        if(data.memolist.some(memo => memo.id == id)){
-            setData({memolist: data.memolist.map(memo => memo.id == id ? {id: memo.id, title: update.title, content: update.content, date: update.date, title_json:update.title_json, content_json:update.title_json} : memo)});
+        if(data.memolist.some(memo => memo.id === id)){
+            setData({memolist: data.memolist.map(memo => memo.id === id ? {id: memo.id, title: update.title, content: update.content, date: update.date, title_json:update.title_json, content_json:update.title_json} : memo)});
         }
         else{
             setData({memolist: [{id: id, title: update.title, content: update.content, date: update.date, title_json:update.title_json, content_json:update.title_json}].concat(data.memolist)});
         }
-        firestore.collection("data").doc("memolist").update({db : "test"})
+        firestore.collection("data").doc("memolist").update({date : update.date})
     }
 
     return (
