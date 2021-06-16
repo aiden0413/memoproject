@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { v4 as uuid } from 'uuid';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { EditorState, ContentState, convertToRaw, convertFromRaw } from 'draft-js';
@@ -10,23 +10,6 @@ import Footer from "./Footer";
 import { firestore } from "../firebase";
 
 function MemoProject() {
-    /*const [data, setData] = useState({
-        memolist: [
-            {
-                id: uuid(), 
-                title: EditorState.createWithContent(ContentState.createFromText("제목1")), 
-                content: EditorState.createWithContent(ContentState.createFromText("내용1")),
-                date: "2021-01-01"
-            },
-            {
-                id: uuid(), 
-                title: EditorState.createWithContent(ContentState.createFromText("제목2")),
-                content: EditorState.createWithContent(ContentState.createFromText("내용2")),
-                date: "2021-01-02"
-            },
-        ]
-    })*/
-
     const [data, setData] = useState({
         memolist: [
         {
@@ -34,10 +17,16 @@ function MemoProject() {
             title: EditorState.createWithContent(ContentState.createFromText("제목1")), 
             content: EditorState.createWithContent(ContentState.createFromText("내용1")),
             date: "2021-01-01"
+        },
+        {
+            id: uuid(), 
+            title: EditorState.createWithContent(ContentState.createFromText("제목2")), 
+            content: EditorState.createWithContent(ContentState.createFromText("내용2")),
+            date: "2021-01-02"
         }
     ]});
 
-    useEffect(()=>{
+    const dbRead =() =>{
         firestore.collection("data").doc("memolist").get().then((doc)=>{
             const dbdata = {memolist: doc.data().memolist.map(memo => ({
                 id: memo.id,
@@ -45,11 +34,35 @@ function MemoProject() {
                 content: EditorState.createWithContent(convertFromRaw(JSON.parse(memo.content))),
                 date: memo.date
             }))};
-            //console.log("db데이터파싱:",dbdata);
-            //console.log("로컬데이터:",data);
             setData(dbdata);
         });
+    }
+
+    const dbSave = () => {
+        const dbdata = {memolist: data.memolist.map(memo => ({
+            id: memo.id,
+            title: JSON.stringify(convertToRaw(memo.title.getCurrentContent())),
+            content: JSON.stringify(convertToRaw(memo.content.getCurrentContent())),
+            date: memo.date
+        }))};
+        firestore.collection("data").doc("memolist").set({memolist : dbdata.memolist});
+    }
+
+    useEffect(()=>{
+        console.log("마운트")
+        dbRead();
+        console.log("마운트db: ",data)
     },  [])
+
+    const isFirstRun = useRef(true);
+    useEffect(() => {
+        if (isFirstRun.current) {
+            isFirstRun.current = false;
+            return;
+        }
+        console.log("세이브")
+        dbSave();
+    },  [data])
 
     const handleRemove = (id) => {
         setData({memolist: data.memolist.filter(memo => memo.id !== id)});
@@ -61,14 +74,6 @@ function MemoProject() {
         else{
             setData({memolist: [{id: id, title: update.title, content: update.content, date: update.date}].concat(data.memolist)});
         }
-
-        const dbdata = {memolist: data.memolist.map(memo => ({
-            id: memo.id,
-            title: JSON.stringify(convertToRaw(memo.title.getCurrentContent())),
-            content: JSON.stringify(convertToRaw(memo.content.getCurrentContent())),
-            date: memo.date
-        }))};
-        firestore.collection("data").doc("memolist").set({memolist : dbdata.memolist});
     }
 
     return (
