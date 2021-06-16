@@ -22,7 +22,9 @@ function Button({
             const content_JSON = EditorState.createWithContent(convertFromRaw(JSON.parse(content_string)));
             
             const update = {...data, title: title_JSON, content: content_JSON, date: today.toLocaleString()};
+            
             btnFunc(id, update);
+            window.localStorage.clear();
         }
         else if(text==="취소"){
 

@@ -17,12 +17,6 @@ function MemoProject() {
             title: EditorState.createWithContent(ContentState.createFromText("제목1")), 
             content: EditorState.createWithContent(ContentState.createFromText("내용1")),
             date: "2021-01-01"
-        },
-        {
-            id: uuid(), 
-            title: EditorState.createWithContent(ContentState.createFromText("제목2")), 
-            content: EditorState.createWithContent(ContentState.createFromText("내용2")),
-            date: "2021-01-02"
         }
     ]});
 
@@ -49,9 +43,7 @@ function MemoProject() {
     }
 
     useEffect(()=>{
-        console.log("마운트")
         dbRead();
-        console.log("마운트db: ",data)
     },  [])
 
     const isFirstRun = useRef(true);
@@ -60,7 +52,6 @@ function MemoProject() {
             isFirstRun.current = false;
             return;
         }
-        console.log("세이브")
         dbSave();
     },  [data])
 
