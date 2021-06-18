@@ -8,7 +8,7 @@ const Weather  = () => {
     useEffect(()=>{
         const cityName = 'Seoul';
         const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
-        const url = `http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`;
+        const url = `https://wemo-project.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`;
 
         axios.get(url)
             .then(responseData => {
