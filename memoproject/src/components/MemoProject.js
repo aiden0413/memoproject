@@ -10,7 +10,7 @@ import Footer from "./Footer";
 import { firestore } from "../firebase";
 
 function MemoProject() {
-    const [data, setData] = useState({
+    /*const [data, setData] = useState({
         memolist: [
         {
             id: uuid(), 
@@ -19,7 +19,8 @@ function MemoProject() {
             date: "2021-01-01",
             weather: { temp: 0, desc: '', icon: '', loading: true }
         }
-    ]});
+    ]});*/
+    const [data, setData] = useState(null);
 
     const dbRead =() =>{
         firestore.collection("data").doc("memolist").get().then((doc)=>{
